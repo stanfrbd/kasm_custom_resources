@@ -6,7 +6,7 @@ CHROME_ARGS="--password-store=basic --no-sandbox  --ignore-gpu-blocklist --user-
 apt-get update
 apt-get install -y software-properties-common
 apt-get remove -y chromium-browser*
-apt-get install -y chromium-browser
+apt-get install -y chromium
 
 sed -i 's/-stable//g' /usr/share/applications/chromium-browser.desktop
 
