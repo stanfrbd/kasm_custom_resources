@@ -1,5 +1,17 @@
 # kasm_custom_resources
 
+This KASM docker image is based on:
+
+* `kasmweb/core-kali-rolling:1.10.0`
+
+It contains:
+
+* Chromium
+* Tor Browser
+* VS Code
+* Telegram Desktop
+* Surfshark VPN (autoconnects at startup following the next config)
+
 ### Add this line in **Docker Run Config Override (JSON)** section
 ```json
 {"cap_add":["NET_ADMIN"],"devices":["dev/net/tun","/dev/net/tun"]}

@@ -26,6 +26,10 @@ RUN bash $INST_SCRIPTS/tools/install_tools_deluxe.sh  && rm -rf $INST_SCRIPTS/to
 COPY ./src/install/torbrowser $INST_SCRIPTS/torbrowser/
 RUN bash $INST_SCRIPTS/torbrowser/install_torbrowser.sh  && rm -rf $INST_SCRIPTS/torbrowser/
 
+# Install Chromium
+COPY ./src/install/chromium $INST_SCRIPTS/chromium/
+RUN bash $INST_SCRIPTS/chromium/install_chromium.sh && rm -rf $INST_SCRIPTS/chromium/
+
 ### Install Visual Studio Code
 COPY ./src/install/vs_code $INST_SCRIPTS/vs_code/
 RUN bash $INST_SCRIPTS/vs_code/install_vs_code.sh  && rm -rf $INST_SCRIPTS/vs_code/
