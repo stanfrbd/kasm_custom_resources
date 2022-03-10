@@ -5,38 +5,37 @@ CHROME_ARGS="--password-store=basic --no-sandbox  --ignore-gpu-blocklist --user-
 
 apt-get update
 apt-get install -y software-properties-common
-apt-get remove -y chromium-browser*
 apt-get install -y chromium
 
-sed -i 's/-stable//g' /usr/share/applications/chromium-browser.desktop
+sed -i 's/-stable//g' /usr/share/applications/chromium.desktop
 
-cp /usr/share/applications/chromium-browser.desktop $HOME/Desktop/
-chown 1000:1000 $HOME/Desktop/chromium-browser.desktop
+cp /usr/share/applications/chromium.desktop $HOME/Desktop/
+chown 1000:1000 $HOME/Desktop/chromium.desktop
 
-mv /usr/bin/chromium-browser /usr/bin/chromium-browser-orig
-cat >/usr/bin/chromium-browser <<EOL
+mv /usr/bin/chromium /usr/bin/chromium-orig
+cat >/usr/bin/chromium <<EOL
 #!/usr/bin/env bash
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/Default/Preferences
 sed -i 's/"exit_type":"Crashed"/"exit_type":"None"/' ~/.config/chromium/Default/Preferences
-/usr/bin/chromium-browser-orig ${CHROME_ARGS} "\$@"
+/usr/bin/chromium-orig ${CHROME_ARGS} "\$@"
 EOL
-chmod +x /usr/bin/chromium-browser
-cp /usr/bin/chromium-browser /usr/bin/chromium
+chmod +x /usr/bin/chromium
+cp /usr/bin/chromium /usr/bin/chromium
 
 if [ "$DISTRO" = centos ]; then
   cat >> $HOME/.config/mimeapps.list <<EOF
     [Default Applications]
-    x-scheme-handler/http=chromium-browser.desktop
-    x-scheme-handler/https=chromium-browser.desktop
-    x-scheme-handler/ftp=chromium-browser.desktop
-    x-scheme-handler/chrome=chromium-browser.desktop
-    text/html=chromium-browser.desktop
-    application/x-extension-htm=chromium-browser.desktop
-    application/x-extension-html=chromium-browser.desktop
-    application/x-extension-shtml=chromium-browser.desktop
-    application/xhtml+xml=chromium-browser.desktop
-    application/x-extension-xhtml=chromium-browser.desktop
-    application/x-extension-xht=chromium-browser.desktop
+    x-scheme-handler/http=chromium.desktop
+    x-scheme-handler/https=chromium.desktop
+    x-scheme-handler/ftp=chromium.desktop
+    x-scheme-handler/chrome=chromium.desktop
+    text/html=chromium.desktop
+    application/x-extension-htm=chromium.desktop
+    application/x-extension-html=chromium.desktop
+    application/x-extension-shtml=chromium.desktop
+    application/xhtml+xml=chromium.desktop
+    application/x-extension-xhtml=chromium.desktop
+    application/x-extension-xht=chromium.desktop
 EOF
 else
   sed -i 's@exec -a "$0" "$HERE/chromium" "$\@"@@g' /usr/bin/x-www-browser
