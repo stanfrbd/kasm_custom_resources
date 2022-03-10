@@ -3,15 +3,10 @@ set -ex
 
 CHROME_ARGS="--password-store=basic --no-sandbox  --ignore-gpu-blocklist --user-data-dir --no-first-run --simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
 
-if [ "$DISTRO" = centos ]; then
-  yum install -y chromium
-  yum clean all
-else
-  apt-get update
-  apt-get install -y software-properties-common
-  apt-get remove -y chromium-browser-l10n chromium-codecs-ffmpeg chromium-browser
-  apt-get install -y chromium-browser
-fi
+apt-get update
+apt-get install -y software-properties-common
+apt-get remove -y chromium-browser*
+apt-get install -y chromium-browser
 
 sed -i 's/-stable//g' /usr/share/applications/chromium-browser.desktop
 
