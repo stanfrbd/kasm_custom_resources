@@ -1,0 +1,46 @@
+FROM kasmweb/core-kali-rolling:1.10.0
+USER root
+
+ENV HOME /home/kasm-default-profile
+ENV STARTUPDIR /dockerstartup
+ENV INST_SCRIPTS $STARTUPDIR/install
+WORKDIR $HOME
+
+######### Customize Container Here ###########
+
+### Upgrade image (very long step)
+RUN apt-get update && apt-get upgrade -y
+
+### Install sudo
+RUN apt-get update \
+    && apt-get install -y sudo \
+    && useradd -m -d /home/kasm-user -s /bin/bash kasm-user \
+    && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
+    && rm -rf /var/lib/apt/list/*
+
+### Install Tools
+COPY ./src/install/tools $INST_SCRIPTS/tools/
+RUN bash $INST_SCRIPTS/tools/install_tools_deluxe.sh  && rm -rf $INST_SCRIPTS/tools/
+
+### Install Visual Studio Code
+COPY ./src/install/vs_code $INST_SCRIPTS/vs_code/
+RUN bash $INST_SCRIPTS/vs_code/install_vs_code.sh  && rm -rf $INST_SCRIPTS/vs_code/
+
+### Install Telegram
+#COPY ./src/install/telegram $INST_SCRIPTS/telegram/
+#RUN bash $INST_SCRIPTS/telegram/install_telegram.sh  && rm -rf $INST_SCRIPTS/telegram/
+
+### Install SurfShark VPN
+COPY ./src/install/surfshark/ $INST_SCRIPTS/surfshark/
+RUN bash $INST_SCRIPTS/surfshark/install_surfshark.sh  && rm -rf $INST_SCRIPTS/surfshark/
+
+######### End Customizations ###########
+
+RUN chown 1000:0 $HOME
+RUN $STARTUPDIR/set_user_permission.sh $HOME
+
+ENV HOME /home/kasm-user
+WORKDIR $HOME
+RUN mkdir -p $HOME && chown -R 1000:0 $HOME
+
+USER 1000
