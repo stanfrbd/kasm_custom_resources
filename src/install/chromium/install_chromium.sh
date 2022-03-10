@@ -8,6 +8,7 @@ apt-get install -y software-properties-common
 apt-get install -y chromium
 
 sed -i 's/-stable//g' /usr/share/applications/chromium.desktop
+sed -i 's#Exec=/usr/bin/chromium %U#Exec=/usr/bin/chromium %U --no-sandbox##' /usr/share/applications/chromium.desktop
 
 cp /usr/share/applications/chromium.desktop $HOME/Desktop/
 chown 1000:1000 $HOME/Desktop/chromium.desktop
