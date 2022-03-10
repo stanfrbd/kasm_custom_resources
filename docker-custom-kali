@@ -22,13 +22,17 @@ RUN apt-get update \
 COPY ./src/install/tools $INST_SCRIPTS/tools/
 RUN bash $INST_SCRIPTS/tools/install_tools_deluxe.sh  && rm -rf $INST_SCRIPTS/tools/
 
+# Install Tor Browser
+COPY ./src/install/torbrowser $INST_SCRIPTS/torbrowser/
+RUN bash $INST_SCRIPTS/torbrowser/install_torbrowser.sh  && rm -rf $INST_SCRIPTS/torbrowser/
+
 ### Install Visual Studio Code
 COPY ./src/install/vs_code $INST_SCRIPTS/vs_code/
 RUN bash $INST_SCRIPTS/vs_code/install_vs_code.sh  && rm -rf $INST_SCRIPTS/vs_code/
 
 ### Install Telegram
-#COPY ./src/install/telegram $INST_SCRIPTS/telegram/
-#RUN bash $INST_SCRIPTS/telegram/install_telegram.sh  && rm -rf $INST_SCRIPTS/telegram/
+COPY ./src/install/telegram $INST_SCRIPTS/telegram/
+RUN bash $INST_SCRIPTS/telegram/install_telegram.sh  && rm -rf $INST_SCRIPTS/telegram/
 
 ### Install SurfShark VPN
 COPY ./src/install/surfshark/ $INST_SCRIPTS/surfshark/
