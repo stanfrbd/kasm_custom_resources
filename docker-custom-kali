@@ -38,6 +38,10 @@ RUN bash $INST_SCRIPTS/vs_code/install_vs_code.sh  && rm -rf $INST_SCRIPTS/vs_co
 COPY ./src/install/telegram $INST_SCRIPTS/telegram/
 RUN bash $INST_SCRIPTS/telegram/install_telegram.sh  && rm -rf $INST_SCRIPTS/telegram/
 
+### Install Discord
+COPY ./src/install/discord $INST_SCRIPTS/discord/
+RUN bash $INST_SCRIPTS/discord/install_discord.sh  && rm -rf $INST_SCRIPTS/discord/
+
 ### Install SurfShark VPN
 COPY ./src/install/surfshark/ $INST_SCRIPTS/surfshark/
 RUN bash $INST_SCRIPTS/surfshark/install_surfshark.sh  && rm -rf $INST_SCRIPTS/surfshark/
