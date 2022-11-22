@@ -1,4 +1,4 @@
-FROM kasmweb/core-kali-rolling:1.10.0
+FROM kasmweb/core-kali-rolling:1.11.0
 USER root
 
 ENV HOME /home/kasm-default-profile
@@ -14,7 +14,8 @@ RUN apt-get update && apt-get upgrade -y
 ### Install sudo
 RUN apt-get update \
     && apt-get install -y sudo \
-    && useradd -m -d /home/kasm-user -s /bin/bash kasm-user \
+#    && useradd -m -d /home/kasm-user -s /bin/bash kasm-user \
+# Add kasm-user to sudoers
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
 
