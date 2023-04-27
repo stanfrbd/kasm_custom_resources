@@ -1,4 +1,4 @@
-FROM kasmweb/core-kali-rolling:1.12.0-rolling
+FROM kasmweb/core-kali-rolling:1.13.0
 USER root
 
 ENV HOME /home/kasm-default-profile
@@ -47,6 +47,8 @@ RUN bash $INST_SCRIPTS/discord/install_discord.sh  && rm -rf $INST_SCRIPTS/disco
 COPY ./src/install/surfshark/ $INST_SCRIPTS/surfshark/
 RUN bash $INST_SCRIPTS/surfshark/install_surfshark.sh  && rm -rf $INST_SCRIPTS/surfshark/
 
+### Install Burpsuite
+RUN bash sudo apt install -y burpsuite
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
