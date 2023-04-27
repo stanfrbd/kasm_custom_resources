@@ -48,7 +48,7 @@ COPY ./src/install/surfshark/ $INST_SCRIPTS/surfshark/
 RUN bash $INST_SCRIPTS/surfshark/install_surfshark.sh  && rm -rf $INST_SCRIPTS/surfshark/
 
 ### Install Burpsuite
-RUN bash apt install -y burpsuite
+RUN apt-get install -y burpsuite
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
