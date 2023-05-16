@@ -49,6 +49,10 @@ RUN bash $INST_SCRIPTS/surfshark/install_surfshark.sh  && rm -rf $INST_SCRIPTS/s
 
 ### Install Burpsuite
 RUN apt-get install -y burpsuite
+
+### Install pip
+RUN apt-get install -y python3-pip
+
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
