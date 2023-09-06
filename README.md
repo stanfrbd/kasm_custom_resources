@@ -24,9 +24,24 @@ docker build --network="kasm_default_network" -t kali-custom:beta -f docker-cust
 * `kasmweb/core-kali-rolling:1.10.0`
 
 ### It contains:
-
-* `Kali Purple Tools`
-* `Kali Linux Main Tools`
+* `kali-tools-top10`
+* `autopsy`
+* `cutycapt`
+* `dirbuster`
+* `faraday`
+* `fern-wifi-cracker`
+* `guymager`
+* `hydra-gtk`
+* `legion`
+* `ophcrack`
+* `ophcrack-cli`
+* `sqlitebrowser`
+* `kali-themes-purple`
+* `kali-tools-identify`
+* `kali-tools-protect`
+* `kali-tools-detect`
+* `kali-tools-respond`
+* `kali-tools-recover`
 * `Burp Suite`
 * `Chromium`
 * `Tor Browser`
