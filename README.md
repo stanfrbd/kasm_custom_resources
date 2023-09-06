@@ -1,5 +1,15 @@
 # kasm_custom_resources
 
+This is supposed to work in KASM Workspaces
+
+to build this Kali (custom) image:
+
+```bash
+git clone https://github.com/stanfrbd/kasm_custom_resources
+cd kasm_custom_resources
+docker build --network="kasm_default_network" -t kali-custom:beta -f docker-custom-kali .
+```
+
 ### This KASM docker image is based on:
 
 * `kasmweb/core-kali-rolling:1.10.0`
