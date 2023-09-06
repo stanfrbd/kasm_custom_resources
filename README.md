@@ -11,7 +11,7 @@ This is supposed to work in KASM Workspaces, so it is not a common docker image.
 ## Dockerfile:
 - `docker-custom-kali`
 
-## How to build this Kali (custom) image:
+## How to build this Kali custom image (this is a very long step) :
 
 ```bash
 git clone https://github.com/stanfrbd/kasm_custom_resources
@@ -19,9 +19,11 @@ cd kasm_custom_resources
 docker build --network="kasm_default_network" -t kali-custom:beta -f docker-custom-kali .
 ```
 
+* This image is ~ 16 GB
+
 ### This KASM docker image is based on:
 
-* `kasmweb/core-kali-rolling:1.10.0`
+* `kasmweb/core-kali-rolling:1.13.0`
 
 ### It contains:
 * `kali-tools-top10`
