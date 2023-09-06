@@ -1,0 +1,3 @@
+xfconf-query -c xsettings -p /Net/ThemeName -s Kali-Purple-Dark
+xfconf-query -c xsettings -p /Net/IconThemeName -s Flat-Remix-Purple-Dark
+xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/kali-16x9/kali-purple.png
