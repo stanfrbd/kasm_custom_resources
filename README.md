@@ -26,6 +26,8 @@ docker build --network="kasm_default_network" -t kali-custom:beta -f docker-cust
 ### It contains:
 
 * `Kali Purple Tools`
+* `Kali Linux Main Tools`
+* `Burp Suite`
 * `Chromium`
 * `Tor Browser`
 * `VS Code`
