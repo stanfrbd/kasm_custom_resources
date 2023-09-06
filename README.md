@@ -1,8 +1,17 @@
 # kasm_custom_resources
 
-This is supposed to work in KASM Workspaces
+## Dependencies
 
-to build this Kali (custom) image:
+- KASM Workspaces
+- Docker
+- Docker Compose (included in the last versions of Docker)
+
+This is supposed to work in KASM Workspaces, so it is not a common docker image. For more information about how it works: [KASM Workspaces | Building Custom Images](https://www.kasmweb.com/docs/latest/how_to/building_images.html)
+
+## Dockerfile:
+- `docker-custom-kali`
+
+## How to build this Kali (custom) image:
 
 ```bash
 git clone https://github.com/stanfrbd/kasm_custom_resources
@@ -16,10 +25,12 @@ docker build --network="kasm_default_network" -t kali-custom:beta -f docker-cust
 
 ### It contains:
 
+* `Kali Purple Tools`
 * `Chromium`
 * `Tor Browser`
 * `VS Code`
 * `Telegram Desktop`
+* `RemoteBox`
 * `Surfshark VPN` (autoconnects at startup following the next config)
 
 ### Add this line in **Docker Run Config Override (JSON)** section
@@ -27,14 +38,17 @@ docker build --network="kasm_default_network" -t kali-custom:beta -f docker-cust
 {"cap_add":["NET_ADMIN"],"devices":["dev/net/tun","/dev/net/tun"]}
 ```
 
-## Add user / password for surfshark in KASM
+## Add Surfshark VPN user / password in KASM
 
 ### Add these lines in **Docker Exec Config (JSON)** section
 
 ```json
 {
     "first_launch": {
-        "cmd": "bash -c 'sudo echo <MANUAL_SURFSHARK_USERNAME> > vpn-auth.txt && sudo echo <MANUAL_SURFSHARK_PASSWORD> >> vpn-auth.txt && sudo openvpn --config /etc/openvpn/ovpn_configs/fi-hel.prod.surfshark.com_udp.ovpn --auth-user-pass vpn-auth.txt --mute-replay-warnings'"
+        "cmd": "bash -c 'sudo echo <MANUAL_SURFSHARK_USERNAME> > vpn-auth.txt && sudo echo <MANUAL_SURFSHARK_PASSWORD> >> vpn-auth.txt && sudo openvpn --config /etc/openvpn/ovpn_configs/<YOUR_SURFSHARK_CONGIG>.ovpn --auth-user-pass vpn-auth.txt --mute-replay-warnings'"
     }
 }
 ```
+
+* You can find `<MANUAL_SURFSHARK_USERNAME>` and `<MANUAL_SURFSHARK_PASSWORD>` on the Surfshark VPN website (manual config section).
+* You can find `<YOUR_SURFSHARK_CONGIG>.ovpn` in `/etc/openvpn/ovpn_configs/` and on the Surfshark VPN website (manual config section).
