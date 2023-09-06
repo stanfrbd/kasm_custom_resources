@@ -45,10 +45,10 @@ docker build --network="kasm_default_network" -t kali-custom:beta -f docker-cust
 ```json
 {
     "first_launch": {
-        "cmd": "bash -c 'sudo echo <MANUAL_SURFSHARK_USERNAME> > vpn-auth.txt && sudo echo <MANUAL_SURFSHARK_PASSWORD> >> vpn-auth.txt && sudo openvpn --config /etc/openvpn/ovpn_configs/<YOUR_SURFSHARK_CONGIG>.ovpn --auth-user-pass vpn-auth.txt --mute-replay-warnings'"
+        "cmd": "bash -c 'sudo echo <MANUAL_SURFSHARK_USERNAME> > vpn-auth.txt && sudo echo <MANUAL_SURFSHARK_PASSWORD> >> vpn-auth.txt && sudo openvpn --config /etc/openvpn/ovpn_configs/<YOUR_SURFSHARK_CONFIG>.ovpn --auth-user-pass vpn-auth.txt --mute-replay-warnings'"
     }
 }
 ```
 
 * You can find `<MANUAL_SURFSHARK_USERNAME>` and `<MANUAL_SURFSHARK_PASSWORD>` on the Surfshark VPN website (manual config section).
-* You can find `<YOUR_SURFSHARK_CONGIG>.ovpn` in `/etc/openvpn/ovpn_configs/` and on the Surfshark VPN website (manual config section).
+* You can find `<YOUR_SURFSHARK_CONFIG>.ovpn` in `/etc/openvpn/ovpn_configs/` and on the Surfshark VPN website (manual config section).
