@@ -1,0 +1,61 @@
+FROM kasmweb/core-ubuntu-focal:develop
+USER root
+
+ENV HOME /home/kasm-default-profile
+ENV STARTUPDIR /dockerstartup
+ENV INST_SCRIPTS $STARTUPDIR/install
+WORKDIR $HOME
+
+######### Customize Container Here ###########
+
+RUN apt-get update && apt-get install -y zsh screen dnsutils git tmux openvpn nano vim zip unzip inetutils-ping build-essential fonts-cascadia-code
+RUN echo "set -g mouse on" > $HOME/.tmux.conf && chown 1000:1000  $HOME/.tmux.conf
+
+### Install sudo
+RUN apt-get update \
+    && apt-get install -y sudo \
+#    && useradd -m -d /home/kasm-user -s /bin/bash kasm-user \
+# Add kasm-user to sudoers
+    && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
+    && rm -rf /var/lib/apt/list/*
+
+### Update .bashrc to run an arbitrary command if specified as an environment variable
+RUN echo "if [ ! -z \"\${SHELL_EXEC}\" ] && [ \"\${TERM}\" == \"xterm-256color\" ] ; \n\
+then \n\
+    set +e \n\
+    eval \${SHELL_EXEC} \n\
+fi \n\
+zsh" >> $HOME/.bashrc && chown 1000:1000  $HOME/.bashrc
+
+COPY ./src/install/terminal/custom_startup.sh $STARTUPDIR/custom_startup.sh
+RUN chmod +x $STARTUPDIR/custom_startup.sh
+RUN chmod 755 $STARTUPDIR/custom_startup.sh
+
+# Update the desktop environment to be optimized for a single application
+RUN cp $HOME/.config/xfce4/xfconf/single-application-xfce-perchannel-xml/* $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+RUN cp /usr/share/extra/backgrounds/bg_kasm.png /usr/share/extra/backgrounds/bg_default.png
+RUN apt-get remove -y xfce4-panel
+
+# configure zsh
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions /home/kasm-user/.zsh/zsh-autosuggestions
+RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/kasm-user/.zsh/zsh-syntax-highlighting
+RUN cd /home/kasm-user
+RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfiles/main/.vimrc
+RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfiles/main/.zshrc
+
+######### End Customizations ###########
+
+RUN chown 1000:0 $HOME -R
+RUN $STARTUPDIR/set_user_permission.sh $HOME
+
+ENV HOME /home/kasm-user
+WORKDIR $HOME
+RUN mkdir -p $HOME && chown -R 1000:0 $HOME
+
+USER 1000
+
+RUN mkdir /home/kasm-user/.config/
+RUN mkdir /home/kasm-user/.config/xfce4/
+RUN mkdir /home/kasm-user/.config/xfce4/terminal/
+RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfiles/main/terminalrc -O "/home/kasm-user/.config/xfce4/terminal/terminalrc"
+

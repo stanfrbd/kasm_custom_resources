@@ -1,4 +1,4 @@
-FROM kasmweb/core-kali-rolling:1.13.0
+FROM kasmweb/core-kali-rolling:1.14.0-rolling
 USER root
 
 ENV HOME /home/kasm-default-profile
@@ -9,7 +9,7 @@ WORKDIR $HOME
 ######### Customize Container Here ###########
 
 ### Upgrade image (very long step)
-RUN apt-get update && apt-get upgrade -y 
+# RUN apt-get update && apt-get upgrade -y 
 # && apt-get install kali-linux-default -y
 
 ### Install sudo
