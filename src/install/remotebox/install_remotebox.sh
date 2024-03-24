@@ -7,27 +7,27 @@ set -ex
 apt-get update
 apt-get install -y libgtk3-perl libsoap-lite-perl freerdp2-x11 tigervnc-viewer imagemagick
 
-wget "http://remotebox.knobgoblin.org.uk/downloads/RemoteBox-3.1.tar.bz2"
+wget "https://remotebox.knobgoblin.org.uk/downloads/RemoteBox-3.2.tar.bz2"
 
-tar -xvf RemoteBox-3.1.tar.bz2 -C /opt
+tar -xvf RemoteBox-3.2.tar.bz2 -C /opt
 
-convert /opt/RemoteBox-3.1/packagers-readme/remotebox.ico /opt/RemoteBox-3.1/packagers-readme/remotebox.png
+convert /opt/RemoteBox-3.2/packagers-readme/remotebox.ico /opt/RemoteBox-3.2/packagers-readme/remotebox.png
 
 echo "[Desktop Entry]
 Name=RemoteBox
 Comment=Remote VirtualBox client
-Exec=/opt/RemoteBox-3.1/remotebox
-Icon=/opt/RemoteBox-3.1/packagers-readme/remotebox-8.png
+Exec=/opt/RemoteBox-3.2/remotebox
+Icon=/opt/RemoteBox-3.2/packagers-readme/remotebox-8.png
 Terminal=false
 Type=Application
 StartupNotify=false
 Categories=Emulator;System;
-Path=/opt/RemoteBox-3.1" > remotebox.desktop
+Path=/opt/RemoteBox-3.2" > remotebox.desktop
 
-chown 1000:1000 /opt/RemoteBox-3.1
+chown 1000:1000 /opt/RemoteBox-3.2
 
 mv remotebox.desktop $HOME/Desktop
 chmod +x $HOME/Desktop/remotebox.desktop
 chown 1000:1000 $HOME/Desktop/remotebox.desktop
 
-rm -rf RemoteBox-3.1.tar.bz2
+rm -rf RemoteBox-3.2.tar.bz2
