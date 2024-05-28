@@ -70,6 +70,9 @@ RUN apt-get install -y burpsuite
 ### Install pip
 RUN apt-get install -y python3-pip
 
+## Cleaning
+RUN apt-get autoremove -y && apt-get autoclean -y
+
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
