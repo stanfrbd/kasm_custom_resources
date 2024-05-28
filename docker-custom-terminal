@@ -1,4 +1,6 @@
-FROM kasmweb/core-ubuntu-focal:develop
+ARG BASE_TAG="develop"
+ARG BASE_IMAGE="core-ubuntu-focal"
+FROM kasmweb/$BASE_IMAGE:$BASE_TAG
 USER root
 
 ENV HOME /home/kasm-default-profile
@@ -8,9 +10,6 @@ WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
-RUN apt-get update && apt-get install -y zsh screen dnsutils git tmux openvpn nano vim zip unzip inetutils-ping build-essential fonts-cascadia-code
-RUN echo "set -g mouse on" > $HOME/.tmux.conf && chown 1000:1000  $HOME/.tmux.conf
-
 ### Install sudo
 RUN apt-get update \
     && apt-get install -y sudo \
@@ -18,6 +17,10 @@ RUN apt-get update \
 # Add kasm-user to sudoers
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
+
+RUN apt-get update && apt-get install -y python3 python3-pip tmux screen nano dnsutils zip zsh screen dnsutils git tmux openvpn nano vim zip unzip inetutils-ping build-essential fonts-cascadia-code
+RUN apt-get autoremove -y && apt-get autoclean
+RUN echo "set -g mouse on" > $HOME/.tmux.conf && chown 1000:1000  $HOME/.tmux.conf
 
 ### Update .bashrc to run an arbitrary command if specified as an environment variable
 RUN echo "if [ ! -z \"\${SHELL_EXEC}\" ] && [ \"\${TERM}\" == \"xterm-256color\" ] ; \n\
@@ -33,7 +36,7 @@ RUN chmod 755 $STARTUPDIR/custom_startup.sh
 
 # Update the desktop environment to be optimized for a single application
 RUN cp $HOME/.config/xfce4/xfconf/single-application-xfce-perchannel-xml/* $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-RUN cp /usr/share/extra/backgrounds/bg_kasm.png /usr/share/extra/backgrounds/bg_default.png
+RUN cp /usr/share/backgrounds/bg_kasm.png /usr/share/backgrounds/bg_default.png
 RUN apt-get remove -y xfce4-panel
 
 # configure zsh
@@ -45,7 +48,7 @@ RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfi
 
 ######### End Customizations ###########
 
-RUN chown 1000:0 $HOME -R
+RUN chown 1000:0 $HOME
 RUN $STARTUPDIR/set_user_permission.sh $HOME
 
 ENV HOME /home/kasm-user
@@ -58,4 +61,3 @@ RUN mkdir /home/kasm-user/.config/
 RUN mkdir /home/kasm-user/.config/xfce4/
 RUN mkdir /home/kasm-user/.config/xfce4/terminal/
 RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfiles/main/terminalrc -O "/home/kasm-user/.config/xfce4/terminal/terminalrc"
-
