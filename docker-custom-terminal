@@ -1,11 +1,11 @@
-ARG BASE_TAG="develop"
-ARG BASE_IMAGE="core-ubuntu-focal"
+ARG BASE_TAG="1.16.0"
+ARG BASE_IMAGE="core-ubuntu-noble"
 FROM kasmweb/$BASE_IMAGE:$BASE_TAG
 USER root
 
-ENV HOME /home/kasm-default-profile
-ENV STARTUPDIR /dockerstartup
-ENV INST_SCRIPTS $STARTUPDIR/install
+ENV HOME=/home/kasm-default-profile
+ENV STARTUPDIR=/dockerstartup
+ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
 ######### Customize Container Here ###########
@@ -51,7 +51,7 @@ RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfi
 RUN chown 1000:0 $HOME
 RUN $STARTUPDIR/set_user_permission.sh $HOME
 
-ENV HOME /home/kasm-user
+ENV HOME=/home/kasm-user
 WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
