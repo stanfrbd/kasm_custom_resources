@@ -18,7 +18,7 @@ RUN apt-get update \
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
 
-RUN apt-get update && apt-get install -y python3 python3-pip tmux screen nano dnsutils zip zsh screen dnsutils git tmux openvpn nano vim zip unzip inetutils-ping build-essential fonts-cascadia-code
+RUN apt-get update && apt-get install -y ssh jq python3 python3-pip tmux screen nano dnsutils zip zsh screen dnsutils git tmux openvpn nano vim zip unzip inetutils-ping build-essential fonts-cascadia-code nmap
 RUN apt-get autoremove -y && apt-get autoclean
 RUN echo "set -g mouse on" > $HOME/.tmux.conf && chown 1000:1000  $HOME/.tmux.conf
 
