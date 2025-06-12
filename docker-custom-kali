@@ -1,22 +1,21 @@
-FROM kasmweb/core-kali-rolling:1.14.0-rolling
+FROM kasmweb/core-kali-rolling:1.17.0-rolling-daily
 USER root
 
-ENV HOME /home/kasm-default-profile
-ENV STARTUPDIR /dockerstartup
-ENV INST_SCRIPTS $STARTUPDIR/install
+ENV HOME=/home/kasm-default-profile
+ENV STARTUPDIR=/dockerstartup
+ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
 ### Upgrade image (very long step)
 # RUN apt-get update && apt-get upgrade -y 
-# && apt-get install kali-linux-default -y
+
+#RUN apt-get update  && apt-get install kali-linux-default -y
 
 ### Install sudo
 RUN apt-get update \
     && apt-get install -y sudo \
-#    && useradd -m -d /home/kasm-user -s /bin/bash kasm-user \
-# Add kasm-user to sudoers
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
 
@@ -49,26 +48,29 @@ COPY ./src/install/telegram $INST_SCRIPTS/telegram/
 RUN bash $INST_SCRIPTS/telegram/install_telegram.sh  && rm -rf $INST_SCRIPTS/telegram/
 
 ### Install Discord
-#COPY ./src/install/discord $INST_SCRIPTS/discord/
-#RUN bash $INST_SCRIPTS/discord/install_discord.sh  && rm -rf $INST_SCRIPTS/discord/
+COPY ./src/install/discord $INST_SCRIPTS/discord/
+RUN bash $INST_SCRIPTS/discord/install_discord.sh  && rm -rf $INST_SCRIPTS/discord/
 
 ### Install SurfShark VPN
 COPY ./src/install/surfshark/ $INST_SCRIPTS/surfshark/
 RUN bash $INST_SCRIPTS/surfshark/install_surfshark.sh  && rm -rf $INST_SCRIPTS/surfshark/
 
 ### Install Remmina
-COPY ./src/install/remmina/ $INST_SCRIPTS/remmina/
-RUN bash $INST_SCRIPTS/remmina/install_remmina.sh  && rm -rf $INST_SCRIPTS/remmina/
+#COPY ./src/install/remmina/ $INST_SCRIPTS/remmina/
+#RUN bash $INST_SCRIPTS/remmina/install_remmina.sh  && rm -rf $INST_SCRIPTS/remmina/
 
 ### Install RemoteBox
-COPY ./src/install/remotebox/ $INST_SCRIPTS/remotebox/
-RUN bash $INST_SCRIPTS/remotebox/install_remotebox.sh  && rm -rf $INST_SCRIPTS/remotebox/
+#COPY ./src/install/remotebox/ $INST_SCRIPTS/remotebox/
+#RUN bash $INST_SCRIPTS/remotebox/install_remotebox.sh  && rm -rf $INST_SCRIPTS/remotebox/
 
 ### Install Burpsuite
 RUN apt-get install -y burpsuite
 
 ### Install pip
 RUN apt-get install -y python3-pip
+
+### Install tor - service
+RUN apt-get update && apt-get install -y tor
 
 ## Cleaning
 RUN apt-get autoremove -y && apt-get autoclean -y
@@ -78,7 +80,7 @@ RUN apt-get autoremove -y && apt-get autoclean -y
 RUN chown 1000:0 $HOME
 RUN $STARTUPDIR/set_user_permission.sh $HOME
 
-ENV HOME /home/kasm-user
+ENV HOME=/home/kasm-user
 WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 

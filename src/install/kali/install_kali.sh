@@ -10,22 +10,20 @@ apt-get install -y \
   cutycapt \
   dirbuster \
   faraday \
-  fern-wifi-cracker \
   guymager \
-  hydra-gtk \
   legion \
   ophcrack \
   ophcrack-cli \
   sqlitebrowser
 
 # Install Kali Purple tools
-apt-get install -y \
-kali-themes-purple \
-kali-tools-identify \
-kali-tools-protect \
-kali-tools-detect \
-kali-tools-respond \
-kali-tools-recover
+# apt-get install -y \
+# kali-themes-purple \
+# kali-tools-identify \
+# kali-tools-protect \
+# kali-tools-detect \
+# kali-tools-respond \
+# kali-tools-recover
 
 # Remove stuff we install later properly
 apt-get purge -y \
