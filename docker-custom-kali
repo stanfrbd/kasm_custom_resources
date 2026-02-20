@@ -67,10 +67,31 @@ RUN bash $INST_SCRIPTS/surfshark/install_surfshark.sh  && rm -rf $INST_SCRIPTS/s
 RUN apt-get install -y burpsuite
 
 ### Install pip
-RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-pip 
 
 ### Install tor - service
 RUN apt-get update && apt-get install -y tor
+
+# Install zsh curl
+RUN apt-get install -y curl zsh
+
+# configure zsh
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions /home/kasm-user/.zsh/zsh-autosuggestions
+RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/kasm-user/.zsh/zsh-syntax-highlighting
+RUN cd /home/kasm-user
+RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfiles/main/.vimrc
+RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfiles/main/.zshrc
+
+### Update .bashrc to run an arbitrary command if specified as an environment variable
+RUN echo "if [ ! -z \"\${SHELL_EXEC}\" ] && [ \"\${TERM}\" == \"xterm-256color\" ] ; \n\
+then \n\
+    set +e \n\
+    eval \${SHELL_EXEC} \n\
+fi \n\
+zsh" >> $HOME/.bashrc && chown 1000:1000  $HOME/.bashrc
+
+# Install Claude Code
+RUN curl -fsSL https://claude.ai/install.sh | bash
 
 ## Cleaning
 RUN apt-get autoremove -y && apt-get autoclean -y
@@ -85,3 +106,11 @@ WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
 USER 1000
+
+# Install pip tools
+RUN pip install requests requests[socks] --break-system-packages
+
+RUN mkdir /home/kasm-user/.config/
+RUN mkdir /home/kasm-user/.config/xfce4/
+RUN mkdir /home/kasm-user/.config/xfce4/terminal/
+RUN wget --no-check-certificate https://raw.githubusercontent.com/stanfrbd/dotfiles/main/terminalrc -O "/home/kasm-user/.config/xfce4/terminal/terminalrc"
